@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page title</title>
+</head>
+<body id="body" style="background-color: gray">
+    <div id="levelSelection" align ="center"></div>
+    <h1 id="steps">Steps moved: 0</h1>
+    <div id="game" align ="center"></div>
+    <script>
+        var body = document.getElementById("body");
+        var game = document.getElementById("game");
+        var steps = document.getElementById("steps");
+        var levelSelection = document.getElementById("levelSelection");
+        var count = 0;
+        var size=4;
+        
+        var levels = ["Easy","Normal","Hard","Harder"]
+        for(var i=0;i<levels.length;i++){
+            var button=document.createElement("button");
+            button.innerHTML=levels[i]; button.setAttribute("style","color:white;width-min:50px; background-color:darkgray;shadow:none");
+            button.setAttribute("level","i+3");
+            button.addEventListener("click",setLevel(button.level)
+            levelSelection.append(button);
+        }
+        body.prepend(levelSelection);
+          for (var i=0;i<size;i++){
+          var row =document.createElement("div");
+          for (var j=0;j<size;j++){
+            var block = document.createElement("img");
+      block.setAttribute("style","width:50px;height:50px; background-color:black;");
+      block.id=i;
+      block.style.width="50px";
+      block.style.height="50px";
+      block.style.background="black";
+      
+      block.addEventListener("click", function changeColour() {
+        
+        if(this.style.background=="black"){ this.style.background= "yellow";}
+        else 
+        {this.style.background= "black";}
+        
+        if(this.previousElementSibling!=null ){if(this.previousElementSibling.style.background=="black"){ this.previousElementSibling.style.background= "yellow";}
+        else 
+        {this.previousElementSibling.style.background= "black";}}
+        
+        if(this.nextElementSibling!=null){ if(this.nextElementSibling.style.background=="black"){ this.nextElementSibling.style.background= "yellow";}
+        else 
+        {this.nextElementSibling.style.background= "black";}}
+        
+        var parent =this.parentElement;
+        var index = indexOf(this);
+        
+       if(parent.previousElementSibling!=null){ 
+        if(parent.previousElementSibling.children[index].style.background=="black")
+{ parent.previousElementSibling.children[index].style.background= "yellow";}
+        else 
+        {parent. previousElementSibling.children[index].style.background= "black";
+      }
+      }
+      
+      if(parent.nextElementSibling!=null){ 
+       if(parent.nextElementSibling.children[index].style.background=="black"){ parent.nextElementSibling.children[index].style.background= "yellow";}
+        else 
+        {parent. nextElementSibling.children[index].style.background= "black";
+      }
+      }
+      
+      count++;
+      console.log(count);
+      steps.innerHTML="Steps moved: " + count;
+      var success =checkSuccess(this);
+      if(success)
+      {alert("Success! Total steps: " + count);
+      count=0;
+      resetBoard(this);
+      }
+      });
+      
+      row.appendChild(block);}
+      
+      game.appendChild(row);}
+
+ function indexOf(item){
+     for(var i =0;;i++){
+         if(item.previousElementSibling==null)
+         return i;
+         item=item.previousElementSibling;
+     }
+ }
+ function checkSuccess (item, steps){
+ 
+ var game=item.parentElement.parentElement;
+ var size=game.children.length;
+     for(var i=0 ;i<size;i++){
+     var row =game.children[i];
+     
+         for(var j=0 ;j<size;j++){
+         var block = row.children[j];
+         if(block.style.background=="black"){
+             return false;
+         }}
+     }
+     return true;
+ }
+ function resetBoard (item){
+ 
+ var game=item.parentElement.parentElement;
+ var size=game.children.length;
+     for(var i=0 ;i<size;i++){
+     var row =game.children[i];
+     
+         for(var j=0 ;j<size;j++){
+         var block = row.children[j];
+         block.style.background="black"
+         }
+     }
+     return true;
+ }
+    </script>            
+</body>
+</html>
